@@ -21,6 +21,9 @@ You have to create a test application using [Pushbullet's dashboard][pushbullet-
     python manage.py rqworker default
     rqscheduler
 
+    # Add the notification task to the scheduler
+    python manage.py schedule-task
+
 [garoa]: https://garoa.net.br/
 [garoa-status]: http://status.garoa.net.br/
 [pushbullet]: https://www.pushbullet.com/
