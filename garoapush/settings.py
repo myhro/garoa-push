@@ -10,21 +10,24 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_DIR = os.path.dirname(__file__)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ug%m)-=@1vh0%-gv15ml(p3$8k1q0b!*hajrep*3kt60-(lzv+'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -36,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_rq',
+    'main',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,18 +62,15 @@ WSGI_APPLICATION = 'garoapush.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(),
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -81,3 +83,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Templates
+
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_DIR, 'templates'),
+)
+
+
+# Django RQ
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+    },
+}
+
+
+# Pushbullet credentials
+
+PUSHBULLET_CLIENT_ID = os.environ.get('PUSHBULLET_CLIENT_ID')
+PUSHBULLET_CLIENT_SECRET = os.environ.get('PUSHBULLET_CLIENT_SECRET')
