@@ -94,10 +94,11 @@ TEMPLATE_DIRS = (
 
 # Django RQ
 
+REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+
 RQ_QUEUES = {
     'default': {
-        'HOST': 'localhost',
-        'PORT': 6379,
+        'URL': REDIS_URL,
         'DB': 0,
     },
 }
@@ -106,4 +107,5 @@ RQ_QUEUES = {
 # Pushbullet credentials
 
 PUSHBULLET_CLIENT_ID = os.environ.get('PUSHBULLET_CLIENT_ID')
+
 PUSHBULLET_CLIENT_SECRET = os.environ.get('PUSHBULLET_CLIENT_SECRET')

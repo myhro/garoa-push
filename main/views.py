@@ -4,7 +4,12 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 import requests
 from .models import PushbulletClient
+from .tasks import notification
 
+
+def check(request):
+    notification()
+    return redirect('home')
 
 def home(request):
     client_id = settings.PUSHBULLET_CLIENT_ID
